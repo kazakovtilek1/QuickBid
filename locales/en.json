@@ -1,0 +1,51 @@
+{
+  "header": {
+    "main": "Home",
+    "artists": "Artists",
+    "lots": "Lots",
+    "search": "Search",
+    "all": "All"
+  },
+  "common": {
+    "all": "All",
+    "artists": "Artists",
+    "lots": "Lots",
+    "performer": "Performer",
+    "buy": "Buy",
+    "notFoundLots": "Lots not found.",
+    "notFoundArtists": "There are no people in this category.",
+    "thisCelebrityHasNoLots": "This celebrity has no lots yet.",
+    "lotsOfCelebrity": "Celebrity's lots",
+    "price": "Price",
+    "owner": "Owner"
+  },
+  "purchaseModal": {
+    "price": "Price",
+    "name": "Name",
+    "phoneNumber": "Phone Number",
+    "email": "Email",
+    "confirm": "Confirm",
+    "changeData": "Change data",
+    "optional": "optional",
+    "enterTheName": "Enter the name",
+    "enterTheNumber": "Enter the number",
+    "totalAmount": "Total amount",
+    "invalidMailFormat": "Invalid email format"
+  },
+  "footer": {
+    "aboutTheCompany": "About the company",
+    "publicOffer": "Public offer",
+    "forOrganizers": "For organizers",
+    "logos": "Logos",
+    "howToBuy": "How to buy?",
+    "purchaseInstructions": "Purchase instructions",
+    "faq": "FAQ",
+    "rulesForUsingTickets": "Rules for using tickets",
+    "returnPolicy": "Return policy",
+    "termsAndConditions": "Terms and conditions",
+    "eTickets": "E-Tickets",
+    "subscribeToUs": "Subscribe to us",
+    "contacts": "Contacts",
+    "support": "Support"
+  }
+}

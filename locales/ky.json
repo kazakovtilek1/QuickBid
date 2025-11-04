@@ -1,0 +1,51 @@
+{
+  "header": {
+    "main": "Башкы бет",
+    "artists": "Артистер",
+    "lots": "Лоттор",
+    "search": "Издөө",
+    "all": "Баары"
+  },
+  "common": {
+    "all": "Баары",
+    "artists": "Артистер",
+    "lots": "Лоттор",
+    "performer": "Ырчы",
+    "buy": "Сатып алуу",
+    "notFoundLots": "Лоттор табылган жок.",
+    "notFoundArtists": "Бул категорияда адамдар жок.",
+    "thisCelebrityHasNoLots": "Бул белгилүү адамда азырынча лоттор жок.",
+    "lotsOfCelebrity": "Машхурдүн лоттору",
+    "price": "Баасы",
+    "owner": "Ээсине"
+  },
+   "purchaseModal": {
+    "price": "Баасы",
+    "name": "Аты",
+    "phoneNumber": "Телефон номери",
+    "email": "Почта",
+    "confirm": "Тастыктоо",
+    "changeData": "Маалыматты өзгөртүү",
+    "optional": "милдеттүү эмес",
+    "enterTheName": "Атын киргизиңиз",
+    "enterTheNumber": "Номерди киргизиңиз",
+    "totalAmount": "Жалпы сумма",
+    "invalidMailFormat": "Электрондук почта форматы туура эмес"
+  },
+  "footer": {
+    "aboutTheCompany": "Компания жөнүндө",
+    "publicOffer": "Жария сунуш",
+    "forOrganizers": "Уюштуруучулар үчүн",
+    "logos": "Логотиптер",
+    "howToBuy": "Кантип сатып алуу?",
+    "purchaseInstructions": "Сатып алуу боюнча нускамалар",
+    "faq": "Суроолор жана жооптор",
+    "rulesForUsingTickets": "Билеттерди колдонуу эрежелери",
+    "returnPolicy": "Кайтаруу саясаты",
+    "termsAndConditions": "Шарттар жана жоболор",
+    "eTickets": "Электрондук билеттер",
+    "subscribeToUs": "Бизге жазылыңыз",
+    "contacts": "Байланыштар",
+    "support": "Колдоо"
+  }
+}

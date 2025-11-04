@@ -1,0 +1,51 @@
+{
+  "header": {
+    "main": "Главная",
+    "artists": "Артисты",
+    "lots": "Лоты",
+    "search": "Поиск",
+    "all": "Все"
+  },
+  "common": {
+    "all": "Все",
+    "artists": "Артисты",
+    "lots": "Лоты",
+    "performer": "Исполнитель",
+    "buy": "Купить",
+    "notFoundLots": "Лоты не найдены.",
+    "notFoundArtists": "В данной категории нет людей.",
+    "thisCelebrityHasNoLots": "У данной знаменитости пока нет лотов.",
+    "lotsOfCelebrity": "Лоты знаменитости",
+    "price": "Цена",
+    "owner": "Владелец"
+  },
+  "purchaseModal": {
+    "price": "цена",
+    "name": "Имя",
+    "phoneNumber": "Номер телефона",
+    "email": "Почта",
+    "confirm": "Подтвердить",
+    "changeData": "Изменить данные",
+    "optional": "необязательно",
+    "enterTheName": "Введите имя",
+    "enterTheNumber": "Введите номер",
+    "totalAmount": "Сумма",
+    "invalidMailFormat": "неверный формат почты"
+  },
+  "footer": {
+    "aboutTheCompany": "О компании",
+    "publicOffer": "Публичная оферта",
+    "forOrganizers": "Для организаторов",
+    "logos": "Логотипы",
+    "howToBuy": "Как купить?",
+    "purchaseInstructions": "Инструкция по покупке",
+    "faq": "Вопросы и ответы",
+    "rulesForUsingTickets": "Правила использования билетов",
+    "returnPolicy": "Правила возврата",
+    "termsAndConditions": "Условия и положения",
+    "eTickets": "Электронные билеты",
+    "subscribeToUs": "Подписатья на нас",
+    "contacts": "Контакты",
+    "support": "Теходдержка"
+  }
+}
