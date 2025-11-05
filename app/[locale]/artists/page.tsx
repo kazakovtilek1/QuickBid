@@ -4,15 +4,18 @@ import AllArtists from "@/components/artists/allArtistsList/AllArtists";
 // ISR — обновление раз в 60 секунд
 export const revalidate = 60;
 
+type ArtistsPageParams = {
+  locale: string;
+};
+
 interface ArtistsPageProps {
-  params: {
-    locale: string;
-  };
+  params: Promise<ArtistsPageParams>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }
 
 // Генерация метаданных динамически
 export async function generateMetadata({ params }: ArtistsPageProps): Promise<Metadata> {
-  const { locale } = params;
+  const { locale } = await params;
 
   const titles = {
     ru: "Артисты | Аукцион",
@@ -33,8 +36,9 @@ export async function generateMetadata({ params }: ArtistsPageProps): Promise<Me
 }
 
 // Основная страница
-export default async function ArtistsPage({ params }: ArtistsPageProps) {
-  const { locale } = params;
+export default async function ArtistsPage({ params, searchParams }: ArtistsPageProps) {
+  const { locale } = await params;
+  await searchParams;
 
   return (
     <div>

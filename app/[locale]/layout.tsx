@@ -13,11 +13,16 @@ import ky from "@/locales/ky.json";
 
 type Locale = "ru" | "en" | "ky";
 
+type LayoutParams = { locale: Locale }; 
+
+interface MetadataProps {
+  params: Promise<LayoutParams>; 
+}
+
+
 export async function generateMetadata({
   params,
-}: {
-  params: { locale: Locale };
-}): Promise<Metadata> {
+}: MetadataProps): Promise<Metadata> {
   const { locale } = await params;
 
   const siteUrl = "https://quickbid.kg";
@@ -90,10 +95,10 @@ export default async function RootLayout({
   params,
 }: Readonly<{
   children: React.ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>; 
 }>) {
-  const { locale } = await Promise.resolve(params);
-  const messages = { ru, en, ky }[locale] || ru;
+  const { locale } = await params;
+  const messages = { ru, en, ky }[locale as Locale] || ru;
 
   return (
     <html

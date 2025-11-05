@@ -4,15 +4,18 @@ import type { Metadata } from "next"
 // ISR — обновление раз в 60 секунд
 export const revalidate = 60
 
+type LotsPageParams = {
+  locale: string
+}
+
 interface LotsPageProps {
-  params: {
-    locale: string
-  }
+  params: Promise<LotsPageParams>
+  searchParams: Promise<Record<string, string | string[] | undefined>>
 }
 
 // Генерация метаданных динамически
 export async function generateMetadata({ params }: LotsPageProps): Promise<Metadata> {
-  const { locale } = params
+  const { locale } = await params
 
   return {
     metadataBase: new URL("https://yourdomain.com"), // необходимо вставить свой домен
@@ -54,8 +57,9 @@ export async function generateMetadata({ params }: LotsPageProps): Promise<Metad
 }
 
 // Основная страница
-export default function LotsPage({ params }: LotsPageProps) {
-  const { locale } = params
+export default async function LotsPage({ params, searchParams }: LotsPageProps) {
+  const { locale } = await params
+  await searchParams
 
   return (
     <div className="max-w-[1180px] p-2.5 xl:p-0 mx-auto">

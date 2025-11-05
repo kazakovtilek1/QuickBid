@@ -1,11 +1,19 @@
 import Home from "@/app/[locale]/HomeClient";
 
+// Тип синхронных параметров
+type RootPageParams = {
+  locale: string;
+};
+
 interface PageProps {
-  params: { locale: string };
+  params: Promise<RootPageParams>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>; 
 }
 
+
 export default async function Page({ params }: PageProps) {
-  const { locale } = await Promise.resolve(params);
-  const selectedLocale = locale || "ru";
+  const { locale } = await params;
+  const selectedLocale = locale || "ru"; 
+  
   return <Home locale={selectedLocale} />;
 }

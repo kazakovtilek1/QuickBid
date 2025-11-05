@@ -4,23 +4,29 @@ import { artists } from "@/data/artists";
 import { lots } from "@/data/lots";
 import ArtistPageClient from "./ArtistPageClient";
 
-export const revalidate = 60; // ISR обновление каждые 60 секунд
+export const revalidate = 60; // ISR
 
-interface ArtistPageProps {
-  params: {
-    locale: string;
-    slug: string;
-  };
+type ArtistPageParams = {
+  locale: string;
+  slug: string;
+};
+
+interface NextPageProps {
+  params: Promise<ArtistPageParams>; 
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }
 
-// Генерация метаданных (SEO)
-export async function generateMetadata({ params }: ArtistPageProps): Promise<Metadata> {
-  const { slug, locale } = await params;
-  const artist = artists.find((a) => a.slug.toLowerCase() === slug.toLowerCase());
+type MetadataProps = NextPageProps;
 
+
+// Генерация метаданных
+export async function generateMetadata({ params }: MetadataProps): Promise<Metadata> {
+  const { locale, slug } = await params;
+
+  const artist = artists.find(a => a.slug.toLowerCase() === slug.toLowerCase());
   if (!artist) return { title: "Artist not found" };
 
-  const name = artist.name[locale as keyof typeof artist.name] || artist.name.en;
+  const name = artist.name[locale as keyof typeof artist.name] || artist.name.ru;
 
   return {
     title: `${name} | Auction`,
@@ -29,27 +35,21 @@ export async function generateMetadata({ params }: ArtistPageProps): Promise<Met
       title: `${name} | Auction`,
       description: `Лоты, представленные артистом ${name}`,
       images: [
-        {
-          url: artist.image,
-          width: 800,
-          height: 600,
-          alt: name,
-        },
+        { url: artist.image, width: 800, height: 600, alt: name }
       ],
     },
   };
 }
 
 // Серверная страница
-export default async function ArtistPage({ params }: ArtistPageProps) {
-  const { slug, locale } = await params;
+export default async function ArtistPage({ params, searchParams }: NextPageProps) {
+  const { locale, slug } = await params;
+  await searchParams; 
 
-  const artist = artists.find((a) => a.slug.toLowerCase() === slug.toLowerCase());
+  const artist = artists.find(a => a.slug.toLowerCase() === slug.toLowerCase());
   if (!artist) return notFound();
 
-  const artistLots = lots.filter((l) => l.owner === artist.id);
+  const artistLots = lots.filter(l => l.owner === artist.id);
 
-  return (
-    <ArtistPageClient artist={artist} artistLots={artistLots} locale={locale} />
-  );
+  return <ArtistPageClient artist={artist} artistLots={artistLots} locale={locale} />;
 }

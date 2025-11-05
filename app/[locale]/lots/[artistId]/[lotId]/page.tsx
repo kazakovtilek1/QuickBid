@@ -9,12 +9,15 @@ import type { Lot } from "@/types/lot";
 // ISR — обновление раз в 60 секунд
 export const revalidate = 60;
 
+type LotPageParams = {
+  locale: string;
+  artistId: string;
+  lotId: string;
+};
+
 interface LotPageProps {
-  params: {
-    locale: string;
-    artistId: string;
-    lotId: string;
-  };
+  params: Promise<LotPageParams>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }
 
 // Задаём допустимые локали
@@ -23,7 +26,7 @@ type Locale = (typeof validLocales)[number];
 
 // Генерация метаданных
 export async function generateMetadata({ params }: LotPageProps): Promise<Metadata> {
-  const { locale, artistId, lotId } = params;
+  const { locale, artistId, lotId } = await params;
 
   if (!validLocales.includes(locale as Locale)) return { title: "Not Found" };
 
@@ -60,8 +63,9 @@ export async function generateMetadata({ params }: LotPageProps): Promise<Metada
 }
 
 // Основная страница
-export default function LotPage({ params }: LotPageProps) {
-  const { locale, artistId, lotId } = params;
+export default async function LotPage({ params, searchParams }: LotPageProps) {
+  const { locale, artistId, lotId } = await params;
+  await searchParams;
 
   // Проверка валидного локал
   if (!validLocales.includes(locale as Locale)) return notFound();
