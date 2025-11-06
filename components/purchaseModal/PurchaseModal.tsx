@@ -144,7 +144,14 @@ export default function PurchaseModal() {
                 <span className="text-red-600">*</span>
               </div>
               <input
-                {...register("phone", { required: t("enterTheNumber") })}
+                {...register("phone", {
+                  required: t("enterTheNumber"),
+                  pattern: {
+                    value: /^\d+$/,
+                    message: t("onlyDigitsAllowed"),
+                  },
+                })}
+                type="tel"
                 className={`border rounded px-3 py-2 mt-1 w-full ${
                   errors.phone ? "border-red-600" : "border-gray-300"
                 }`}
@@ -165,10 +172,11 @@ export default function PurchaseModal() {
               <input
                 {...register("email", {
                   pattern: {
-                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
                     message: t("invalidMailFormat"),
                   },
                 })}
+                type="email"
                 className={`border rounded px-3 py-2 mt-1 w-full ${
                   errors.email ? "border-red-600" : "border-gray-300"
                 }`}

@@ -20,7 +20,10 @@ export default function ArtistPageClient({ artist, artistLots, locale }: ArtistP
     <div className="max-w-[1180px] p-2.5 xl:p-0 mx-auto flex flex-col gap-10 sm:gap-15 md:gap-20 lg:gap-30">
       {/* Информация об артисте */}
       <div className="flex flex-col text-center md:text-start md:flex-row gap-2 md:gap-5 lg:gap-15">
-        <div className="relative w-full self-center md:self-auto max-w-[200px] aspect-[3/4] md:max-w-[260px] lg:max-w-[290px]">
+        <div className="relative w-full self-center md:self-auto aspect-[3/4] 
+          max-w-none
+          sm:max-w-[260px]
+          lg:max-w-[290px]">
           <Image
             src={artist.image}
             alt={localizeText(artist.name, locale)}

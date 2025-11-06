@@ -77,7 +77,7 @@ export default function LotPageClient({
 
           <button
             onClick={handleBuyClick}
-            className="fixed bottom-0 left-0 w-full z-50 bg-[#29A383] hover:bg-[#1c775e] text-white text-base font-medium py-3 rounded-lg md:static md:w-auto md:max-w-[300px] md:rounded-[6px] transition"
+            className="fixed bottom-0 left-0 w-full z-50 bg-[#29A383] hover:bg-[#1c775e] text-white text-base font-medium py-3 cursor-pointer rounded-lg md:static md:w-auto md:max-w-[300px] md:rounded-[6px] transition"
           >
             {t("buy")}
           </button>

@@ -30,7 +30,8 @@
     "enterTheName": "Enter the name",
     "enterTheNumber": "Enter the number",
     "totalAmount": "Total amount",
-    "invalidMailFormat": "Invalid email format"
+    "invalidMailFormat": "Invalid email format",
+    "onlyDigitsAllowed": "Only digits are allowed"
   },
   "footer": {
     "aboutTheCompany": "About the company",

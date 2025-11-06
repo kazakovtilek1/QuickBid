@@ -30,7 +30,8 @@
     "enterTheName": "Введите имя",
     "enterTheNumber": "Введите номер",
     "totalAmount": "Сумма",
-    "invalidMailFormat": "неверный формат почты"
+    "invalidMailFormat": "неверный формат почты",
+    "onlyDigitsAllowed": "Номер телефона должен содержать только цифры"
   },
   "footer": {
     "aboutTheCompany": "О компании",

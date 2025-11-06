@@ -30,7 +30,8 @@
     "enterTheName": "Атын киргизиңиз",
     "enterTheNumber": "Номерди киргизиңиз",
     "totalAmount": "Жалпы сумма",
-    "invalidMailFormat": "Электрондук почта форматы туура эмес"
+    "invalidMailFormat": "Электрондук почта форматы туура эмес",
+    "onlyDigitsAllowed": "Сандар гана уруксат берилет"
   },
   "footer": {
     "aboutTheCompany": "Компания жөнүндө",
