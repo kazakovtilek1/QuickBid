@@ -18,7 +18,7 @@ export default function PurchaseModal() {
   const t = useTranslations("purchaseModal");
   const dispatch = useAppDispatch();
 
-  const { open, lotId, artistId, lotTitle, lotImage, lotPrice, lotCurrency } =
+  const { open, lotId, artistId, lotTitle, lotImage, lotPrice } =
     useAppSelector((state) => state.purchaseModal);
 
   const [formData, setFormData] = useState<FormData | null>(null);
@@ -45,7 +45,6 @@ export default function PurchaseModal() {
         lotId,
         artistId,
         amount: lotPrice,
-        currency: lotCurrency,
       })
     : "";
 
@@ -88,7 +87,7 @@ export default function PurchaseModal() {
           <div>
             <h2 className="text-lg font-semibold">{lotTitle}</h2>
             <p className="text-sm text-gray-600">
-              {t("price")}: {lotPrice} {lotCurrency}
+              {t("price")}: {lotPrice} KGS
             </p>
           </div>
         </div>
@@ -101,7 +100,7 @@ export default function PurchaseModal() {
             </p>
             <QRCodeSVG value={qrPayload} size={220} />
             <p className="text-xs text-gray-500">
-              {t("totalAmount")}: {lotPrice} {lotCurrency}
+              {t("totalAmount")}: {lotPrice} KGS
             </p>
             <button
               onClick={() => {

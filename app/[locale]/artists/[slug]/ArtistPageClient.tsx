@@ -25,7 +25,7 @@ export default function ArtistPageClient({ artist, artistLots, locale }: ArtistP
           sm:max-w-[260px]
           lg:max-w-[290px]">
           <Image
-            src={artist.image}
+            src={`https://auction-backend-mlzq.onrender.com${artist.photo}`}
             alt={localizeText(artist.name, locale)}
             fill
             className="object-cover rounded-md"

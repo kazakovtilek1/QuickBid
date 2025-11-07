@@ -20,7 +20,7 @@ export default function ArtistCard({ artist }: ArtistCardProps) {
           {/* Картинка */}
           <div className="relative w-full aspect-[3/4] rounded-[2px]">
             <Image
-              src={artist.image}
+              src={`https://auction-backend-mlzq.onrender.com${artist.photo}`}
               alt={localizeText(artist.name, locale)}
               fill
               className="object-cover transition-transform duration-300 group-hover:scale-[1.06] rounded-md"

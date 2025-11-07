@@ -1,58 +1,101 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import LotPageClient from "./LotPageClient";
-import { artists } from "@/data/artists";
-import { lots } from "@/data/lots";
 import type { Artist } from "@/types/artist";
 import type { Lot } from "@/types/lot";
 
-// ISR — обновление раз в 60 секунд
-export const revalidate = 60;
+import { store } from "@/src/store/store";
+import { artistsApi } from "@/src/store/services/artistsApi";
+import { lotsApi } from "@/src/store/services/lotsApi";
+import type { LocalizedText, LocalizedDesc } from "@/utils/localize";
+
+export const revalidate = 60; 
+const IMAGE_BASE_URL = "https://auction-backend-mlzq.onrender.com"; 
+const validLocales = ["ru", "en", "ky"] as const;
+type Locale = (typeof validLocales)[number];
+
 
 type LotPageParams = {
-  locale: string;
+  locale: Locale;
   artistId: string;
   lotId: string;
 };
 
 interface LotPageProps {
-  params: Promise<LotPageParams>;
-  searchParams: Promise<Record<string, string | string[] | undefined>>;
+  params: LotPageParams;
+  searchParams: Record<string, string | string[] | undefined>;
 }
 
-// Задаём допустимые локали
-const validLocales = ["ru", "en", "ky"] as const;
-type Locale = (typeof validLocales)[number];
+type MetadataProps = { params: LotPageParams };
 
-// Генерация метаданных
-export async function generateMetadata({ params }: LotPageProps): Promise<Metadata> {
-  const { locale, artistId, lotId } = await params;
 
-  if (!validLocales.includes(locale as Locale)) return { title: "Not Found" };
+async function getLotAndArtist(params: LotPageParams): Promise<{ lot: Lot; artist: Artist } | null> {
+  const { locale, artistId: artistSlug, lotId } = params;
 
-  const artist: Artist | undefined = artists.find(
-    a => a.slug.toLowerCase() === artistId.toLowerCase()
-  );
+  try {
+    // 1. Получаем все лоты и всех артистов параллельно
+    const [
+      { data: lotsSource }, 
+      { data: artistsSource }
+    ] = await Promise.all([
+      store.dispatch(lotsApi.endpoints.getLots.initiate(locale)),
+      store.dispatch(artistsApi.endpoints.getArtists.initiate(locale)),
+    ]);
 
-  const lot: Lot | undefined = lots.find(
-    l => l.id.toLowerCase() === lotId.toLowerCase() && l.owner === artist?.id
-  );
+    if (!lotsSource || !artistsSource) return null;
 
-  if (!artist || !lot) return { title: "Not Found" };
+    // 2. Находим артиста по SLUG
+    const artist = artistsSource.find(a => a.slug.toLowerCase() === artistSlug.toLowerCase());
+    if (!artist) return null;
 
-  const localizedTitle = lot.title[locale as keyof typeof lot.title] ?? lot.title.ru;
-  const localizedDesc = lot.description[locale as keyof typeof lot.description]?.[0] ?? "";
+    // 3. Находим лот по ID и ownerId
+    const lot = lotsSource.find(
+      l => l.id.toLowerCase() === lotId.toLowerCase() && l.artistId === artist.id
+    );
+
+    if (!lot) return null;
+
+    return { lot, artist };
+
+  } catch (error) {
+    console.error("Error fetching lot/artist", error);
+    return null;
+  }
+}
+
+
+export async function generateMetadata({ params }: MetadataProps): Promise<Metadata> {
+  const { locale } = params;
+  
+  // Получаем лот и артиста
+  const data = await getLotAndArtist(params);
+  if (!data) return { title: "Not Found" };
+  
+  const { lot, artist } = data;
+
+  const safeLocale = locale as keyof LocalizedText;
+  
+  const localizedTitle = (lot.name as LocalizedText)?.[safeLocale] ?? (lot.name as LocalizedText)?.ru ?? 'Лот';
+  
+  const localizedDesc = (lot.description as LocalizedDesc)?.[safeLocale]?.[0] ?? (lot.description as LocalizedDesc)?.ru?.[0] ?? "";
+  
+  const localizedArtistName = (artist.name as LocalizedText)?.[safeLocale] ?? (artist.name as LocalizedText)?.ru ?? 'Артист';
+  
+  const fullImageUrl = lot.photos && lot.photos.length > 0
+    ? `${IMAGE_BASE_URL}${lot.photos[0]}`
+    : "/placeholder.svg";
+
 
   return {
-    metadataBase: new URL("https://yourdomain.com"), // заменить на свой домен
-    title: `${localizedTitle} — ${artist.name[locale as keyof typeof artist.name]}`,
+    metadataBase: new URL("https://yourdomain.com"), 
+    title: `${localizedTitle} — ${localizedArtistName}`,
     description: localizedDesc,
     openGraph: {
-      title: `${localizedTitle} — ${artist.name[locale as keyof typeof artist.name]}`,
+      title: `${localizedTitle} — ${localizedArtistName}`,
       description: localizedDesc,
       images: [
         {
-          url: lot.image[0],
+          url: fullImageUrl,
           width: 1200,
           height: 630,
           alt: localizedTitle,
@@ -63,30 +106,22 @@ export async function generateMetadata({ params }: LotPageProps): Promise<Metada
 }
 
 // Основная страница
-export default async function LotPage({ params, searchParams }: LotPageProps) {
-  const { locale, artistId, lotId } = await params;
-  await searchParams;
+export default async function LotPage({ params }: LotPageProps) {
+  const { locale } = params;
 
-  // Проверка валидного локал
-  if (!validLocales.includes(locale as Locale)) return notFound();
+  if (!validLocales.includes(locale)) return notFound();
 
-  // Находим артиста
-  const artist: Artist | undefined = artists.find(
-    a => a.slug.toLowerCase() === artistId.toLowerCase()
-  );
-  if (!artist) return notFound();
+  // Получаем лот и артиста
+  const data = await getLotAndArtist(params);
+  if (!data) return notFound();
 
-  // Находим лот
-  const lot: Lot | undefined = lots.find(
-    l => l.id.toLowerCase() === lotId.toLowerCase() && l.owner === artist.id
-  );
-  if (!lot) return notFound();
+  const { lot, artist } = data;
 
   return (
     <LotPageClient
       artist={artist}
       lot={lot}
-      locale={locale as Locale}
+      locale={locale}
     />
   );
 }

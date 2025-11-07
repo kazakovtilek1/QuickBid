@@ -1,10 +1,14 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { artists } from "@/data/artists";
-import { lots } from "@/data/lots";
 import ArtistPageClient from "./ArtistPageClient";
+import { artistsApi } from "@/src/store/services/artistsApi";
+import { lotsApi } from "@/src/store/services/lotsApi";
+import { store } from "@/src/store/store";
+import type { Artist } from "@/types/artist";
+import type { Lot } from "@/types/lot";
 
-export const revalidate = 60; // ISR
+export const revalidate = 60; 
+const IMAGE_BASE_URL = "https://auction-backend-mlzq.onrender.com";
 
 type ArtistPageParams = {
   locale: string;
@@ -12,21 +16,60 @@ type ArtistPageParams = {
 };
 
 interface NextPageProps {
-  params: Promise<ArtistPageParams>; 
-  searchParams: Promise<Record<string, string | string[] | undefined>>;
+  params: ArtistPageParams; 
+  searchParams: Record<string, string | string[] | undefined>;
 }
 
-type MetadataProps = NextPageProps;
+type MetadataProps = { params: ArtistPageParams };
 
 
-// Генерация метаданных
+//  Получает данные артиста по SLUG, используя RTK Query
+async function getArtistBySlugSSDF(slug: string, locale: string): Promise<Artist | undefined> {
+  try {
+    // Выполняем запрос RTK Query на сервере
+    const { data: artists } = await store.dispatch(
+      artistsApi.endpoints.getArtists.initiate(locale)
+    );
+
+    if (!artists) return undefined;
+    
+    // Фильтруем полученный список по slug
+    return artists.find(a => a.slug.toLowerCase() === slug.toLowerCase());
+
+  } catch (error) {
+    console.error("Error fetching artist", error);
+    return undefined;
+  }
+}
+
+// Получает лоты по ID артиста, используя RTK Query
+async function getLotsByArtistIdSSDF(artistId: string, locale: string): Promise<Lot[]> {
+  try {
+    const { data: allLots } = await store.dispatch(
+      lotsApi.endpoints.getLots.initiate(locale)
+    );
+
+    if (!allLots) return [];
+    
+    // Фильтруем лоты по artistId
+    return allLots.filter(l => l.artistId === artistId); 
+
+  } catch (error) {
+    console.error("Error fetching lots", error);
+    return [];
+  }
+}
+
+
 export async function generateMetadata({ params }: MetadataProps): Promise<Metadata> {
-  const { locale, slug } = await params;
+  const { locale, slug } = params;
 
-  const artist = artists.find(a => a.slug.toLowerCase() === slug.toLowerCase());
+  // Используем SSDF-функцию
+  const artist = await getArtistBySlugSSDF(slug, locale);
   if (!artist) return { title: "Artist not found" };
 
-  const name = artist.name[locale as keyof typeof artist.name] || artist.name.ru;
+  const name = artist.name[locale as keyof typeof artist.name] || artist.name.ru || 'Артист';
+  const fullImageUrl = `${IMAGE_BASE_URL}${artist.photo}`;
 
   return {
     title: `${name} | Auction`,
@@ -35,21 +78,28 @@ export async function generateMetadata({ params }: MetadataProps): Promise<Metad
       title: `${name} | Auction`,
       description: `Лоты, представленные артистом ${name}`,
       images: [
-        { url: artist.image, width: 800, height: 600, alt: name }
+        { url: fullImageUrl, width: 800, height: 600, alt: name } 
       ],
     },
   };
 }
 
-// Серверная страница
-export default async function ArtistPage({ params, searchParams }: NextPageProps) {
-  const { locale, slug } = await params;
-  await searchParams; 
 
-  const artist = artists.find(a => a.slug.toLowerCase() === slug.toLowerCase());
+export default async function ArtistPage({ params }: NextPageProps) {
+  const { locale, slug } = params;
+
+  // 1. Получаем артиста по SLUG
+  const artist = await getArtistBySlugSSDF(slug, locale);
   if (!artist) return notFound();
 
-  const artistLots = lots.filter(l => l.owner === artist.id);
+  // 2. Получаем лоты по ID артиста
+  const artistLots = await getLotsByArtistIdSSDF(artist.id, locale);
 
-  return <ArtistPageClient artist={artist} artistLots={artistLots} locale={locale} />;
+  return (
+    <ArtistPageClient 
+      artist={artist} 
+      artistLots={artistLots} 
+      locale={locale} 
+    />
+  );
 }

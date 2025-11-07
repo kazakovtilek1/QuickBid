@@ -1,23 +1,13 @@
 import { Lot } from "./lot";
+import { LocalizedDesc, LocalizedText } from "@/utils/localize";
 
-interface LocalizedName {
-  ru: string;
-  en: string;
-  ky: string;
-}
-
-interface LocalizedDesc {
-  ru: string[];
-  en: string[];
-  ky: string[];
-}
 
 export interface Artist {
   id: string;
   slug: string;
-  name: LocalizedName;
+  name: LocalizedText | null;
   category: string;
-  description: LocalizedDesc;
-  image: string;
+  description: LocalizedDesc | null;
+  photo: string;
   lot: Lot[];
 }

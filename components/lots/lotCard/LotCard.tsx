@@ -17,7 +17,7 @@ interface LotCardProps {
 
 export default function LotCard({ lot, artist }: LotCardProps) {
   const locale = useLocale();
-  const localizedTitle = localizeText(lot.title, locale);
+  const localizedTitle = localizeText(lot.name, locale);
   const t = useTranslations("common");
 
   return (
@@ -28,7 +28,7 @@ export default function LotCard({ lot, artist }: LotCardProps) {
           {/* Картинка */}
           <div className="relative w-full aspect-[3/4] rounded-[2px]">
             <Image
-              src={lot.image[0]}
+              src={lot.photos[0]}
               alt={localizedTitle}
               fill
               className="object-cover transition-transform duration-300 group-hover:scale-[1.06] rounded-md"
@@ -58,7 +58,7 @@ export default function LotCard({ lot, artist }: LotCardProps) {
                   width={18}
                   height={18}
                 />
-                {`${lot.price} ${lot.currency}`}
+                {`${lot.price} KGS`}
               </p>
               <button className="w-full flex justify-center gap-2.5 rounded-[4px] py-0.5 cursor-pointer bg-[#29A383] hover:bg-[#1c775e] transition text-white">
                 <Image

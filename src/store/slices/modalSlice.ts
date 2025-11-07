@@ -7,7 +7,6 @@ interface PurchaseModalState {
   lotTitle?: string;
   lotImage?: string;
   lotPrice?: number;
-  lotCurrency?: string;
 }
 
 const initialState: PurchaseModalState = {
@@ -26,7 +25,6 @@ const purchaseModalSlice = createSlice({
         lotTitle: string;
         lotImage: string;
         lotPrice: number;
-        lotCurrency: string;
       }>
     ) => {
       state.open = true;
@@ -35,7 +33,6 @@ const purchaseModalSlice = createSlice({
       state.lotTitle = action.payload.lotTitle;
       state.lotImage = action.payload.lotImage;
       state.lotPrice = action.payload.lotPrice;
-      state.lotCurrency = action.payload.lotCurrency;
     },
     closeModal: (state) => {
       state.open = false;
@@ -44,7 +41,6 @@ const purchaseModalSlice = createSlice({
       state.lotTitle = undefined;
       state.lotImage = undefined;
       state.lotPrice = undefined;
-      state.lotCurrency = undefined;
     },
   },
 });

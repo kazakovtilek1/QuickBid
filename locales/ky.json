@@ -17,7 +17,11 @@
     "thisCelebrityHasNoLots": "Бул белгилүү адамда азырынча лоттор жок.",
     "lotsOfCelebrity": "Машхурдүн лоттору",
     "price": "Баасы",
-    "owner": "Ээсине"
+    "owner": "Ээсине",
+    "errorLoadingData": "Маалыматты жүктөөдө ката кетти.",
+    "tryAgainLater": "Кийинчерээк кайра аракет кылыңыз.",
+    "loading": "Жүктөлүүдө",
+    "errorLoadingSlider": "Слайдерди жүктөөдө ката кетти."
   },
    "purchaseModal": {
     "price": "Баасы",

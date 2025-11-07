@@ -1,16 +1,21 @@
-import { baseApi } from './baseApi'
+import { baseApi } from "./baseApi";
+import { Artist } from "@/types/artist";
 
 export const artistsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getArtists: builder.query({
-      query: (locale: string) => `/artists?lang=${locale}`,
+    // Получение списка артистов с параметром locale
+    getArtists: builder.query<Artist[], string>({ 
+      query: (locale) => `/artists?lang=${locale}`,
       providesTags: ['Artists'],
     }),
-    getArtistById: builder.query({
-      query: (id: string) => `/artists/${id}`,
+    
+    // Получение одного артиста по ID
+    getArtistById: builder.query<Artist, string>({
+      query: (id) => `/artists/${id}`, // GET /artists/{id}
+      providesTags: (result, error, id) => [{ type: 'Artists', id }], 
     }),
   }),
   overrideExisting: false,
-})
+});
 
-export const { useGetArtistsQuery, useGetArtistByIdQuery } = artistsApi
+export const { useGetArtistsQuery, useGetArtistByIdQuery } = artistsApi;

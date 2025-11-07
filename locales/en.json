@@ -17,7 +17,11 @@
     "thisCelebrityHasNoLots": "This celebrity has no lots yet.",
     "lotsOfCelebrity": "Celebrity's lots",
     "price": "Price",
-    "owner": "Owner"
+    "owner": "Owner",
+    "errorLoadingData": "Error loading data.",
+    "tryAgainLater": "Please try again later.",
+    "loading": "Loading",
+    "errorLoadingSlider": "Error loading slider."
   },
   "purchaseModal": {
     "price": "Price",

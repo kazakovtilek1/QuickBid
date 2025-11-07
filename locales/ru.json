@@ -17,7 +17,11 @@
     "thisCelebrityHasNoLots": "У данной знаменитости пока нет лотов.",
     "lotsOfCelebrity": "Лоты знаменитости",
     "price": "Цена",
-    "owner": "Владелец"
+    "owner": "Владелец",
+    "errorLoadingData": "Ошибка загрузки данных.",
+    "tryAgainLater": "попробуйте позже",
+    "loading": "Загрузка",
+    "errorLoadingSlider": "Ошибка при загрузке слайдера."
   },
   "purchaseModal": {
     "price": "цена",

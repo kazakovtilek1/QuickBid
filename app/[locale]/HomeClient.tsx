@@ -2,7 +2,7 @@
 
 import AllArtists from "@/components/artists/allArtistsList/AllArtists";
 import Banner from "@/components/banner/Banner";
-import FeaturedLotsSlider from "@/components/featuredLots/FeaturedLotsSlider";
+import FeaturedLotsSlider from "@/components/lotsSlider/LotsSlider";
 import AllLots from "@/components/lots/allLotsList/AllLots";
 import { useRef } from "react";
 
